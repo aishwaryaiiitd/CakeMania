@@ -40,13 +40,41 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"/>
 
-            <TextView
-                android:id="@+id/cake_weight"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/weight"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"/>
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/minus_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_minus"
+                    android:background="@android:color/white"/>
+
+
+                <TextView
+                    android:id="@+id/cake_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    />
+
+                <ImageButton
+                    android:id="@+id/plus_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_plus"
+                    android:background="@android:color/white"/>
+
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/cake_price"

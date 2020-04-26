@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,12 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
         @BindView(R.id.delete_button)
         Button delete_button;
 
+        @BindView(R.id.plus_button)
+        ImageButton plus_button;
+
+        @BindView(R.id.minus_button)
+        ImageButton minus_button;
+
         @BindView(R.id.selected_list_view)
         LinearLayout item_layout;
 
@@ -90,11 +97,37 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
     public void onBindViewHolder(final MyViewHolder holder, final int  position) {
 
         Cake cake = arrayList.get(position);
+        int index = cake.getCurrent_index();
         holder.name.setText(cake.getName());
-        holder.price.setText("Rs. "+cake.getPrice());
-        holder.weight.setText(cake.getWeight());
+        holder.price.setText("Rs. "+cake.getPrice().get(index));
+        holder.weight.setText(cake.getWeight().get(index));
+
+        update_button(holder,index,cake.getWeight().size());
 
         Glide.with(holder.itemView.getContext()).load(cake.getImage_url()).fitCenter().into(holder.image);
+
+        holder.plus_button.setOnClickListener(v -> {
+            int ind =cake.getCurrent_index();
+            if(ind < (cake.getWeight().size()-1)){
+                cake.setCurrent_index(ind+1);
+                holder.price.setText("Rs. "+cake.getPrice().get(ind+1));
+                holder.weight.setText(cake.getWeight().get(ind+1));
+                ind=ind+1;
+                update_button(holder,ind,cake.getWeight().size());
+            }
+        });
+
+        holder.minus_button.setOnClickListener(v -> {
+            int ind =cake.getCurrent_index();
+            if(ind > 0){
+                cake.setCurrent_index(ind-1);
+                holder.price.setText("Rs. "+cake.getPrice().get(ind-1));
+                holder.weight.setText(cake.getWeight().get(ind-1));
+                ind=ind-1;
+                update_button(holder,ind,cake.getWeight().size());
+
+            }
+        });
 
         holder.delete_button.setOnClickListener(v -> {
             cake.setSelected(false);
@@ -104,6 +137,22 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
                 notifyItemRangeChanged(position,arrayList.size());
             }
         });
+    }
+
+    private void update_button(final MyViewHolder holder, int index, int size){
+        if(index == 0){
+            holder.minus_button.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_minus_grey));
+        }
+        else{
+            holder.minus_button.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_minus));
+        }
+
+        if(index == size-1){
+            holder.plus_button.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_plus_grey));
+        }
+        else{
+            holder.plus_button.setImageDrawable(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_plus));
+        }
     }
 
     @Override

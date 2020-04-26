@@ -40,14 +40,21 @@ public class GetCakeList extends AsyncTask<String, Void, ArrayList<Cake>> {
                     String name = c.getString("cake_name");
                     JSONArray w_l_p = c.getJSONArray("w_l_p");
                     JSONObject first = w_l_p.getJSONObject(0);
-                    String weight = first.getString("weight");
-                    String price = first.getString("price");
                     String image = first.getString("pictures");
                     JSONObject im = new JSONObject(image);
                     String image_id = im.getString("file_name");
 
-                    Cake cake=new Cake(name,weight,price,image_id);
-                    Log.d(TAG,name+" "+weight+" "+price+" "+image_id);
+                    ArrayList<String> weight_list=new ArrayList<>();
+                    ArrayList<String> price_list=new ArrayList<>();
+                    for(int j=0; j < w_l_p.length(); j++){
+                        JSONObject obj = w_l_p.getJSONObject(j);
+                        weight_list.add( obj.getString("weight") );
+                        price_list.add( obj.getString("price") );
+
+                    }
+
+                    Cake cake=new Cake(name,weight_list,price_list,image_id);
+                    Log.d(TAG,name+" "+weight_list.toString()+" "+ price_list.toString()+" "+image_id);
                     // adding cake to mArrayList
                     cakeList.add(cake);
                 }
